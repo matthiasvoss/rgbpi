@@ -51,12 +51,6 @@ def full(strip,color):
         strip.setPixelColor(n,color)
     show(strip)
 
-def full_all(color):
-    full(window,color)
-    full(logo,color)
-    full(button,color)
-    full(gpu,color)
-
 def full_set(strip,color):
     for n in range(strip.numPixels()):
         strip.setPixelColor(n,color)
@@ -129,7 +123,7 @@ def rainbow(strip):
 
 def breatheval(x):
     return 255*(x**4)
-    
+
 def breathe(strip,turns,speed,hold,pause):
     for t in range(turns):
         i=float(0)
@@ -156,30 +150,26 @@ def breathe(strip,turns,speed,hold,pause):
 ##################################################
 # MAIN
 ##################################################
-GPIO.output(pin_window, GPIO.HIGH)
-GPIO.output(pin_logo, GPIO.HIGH)
-GPIO.output(pin_button, GPIO.HIGH)
-GPIO.output(pin_gpu, GPIO.HIGH)
-window = LedStrip(76,18,800000,10,False,255,0,pin_window)
-logo = LedStrip(9,18,800000,10,False,255,0,pin_logo)
-button = LedStrip(2,18,800000,10,False,255,0,pin_button)
-gpu = LedStrip(4,18,800000,10,False,255,0,pin_gpu)
-window.begin()
-logo.begin()
-button.begin()
-gpu.begin()
+def main():
+    GPIO.output(pin_window, GPIO.HIGH)
+    GPIO.output(pin_logo, GPIO.HIGH)
+    GPIO.output(pin_button, GPIO.HIGH)
+    GPIO.output(pin_gpu, GPIO.HIGH)
+    window = LedStrip(76,18,800000,10,False,255,0,pin_window)
+    logo = LedStrip(9,18,800000,10,False,255,0,pin_logo)
+    button = LedStrip(2,18,800000,10,False,255,0,pin_button)
+    gpu = LedStrip(4,18,800000,10,False,255,0,pin_gpu)
+    window.begin()
+    logo.begin()
+    button.begin()
+    gpu.begin()
 
 ##################################################
-gpu.setBrightness(125)
-full_all(white)
-time.sleep(3)
-full_all(red)
-time.sleep(3)
-full_all(green)
-time.sleep(3)
-full_all(blue)
-time.sleep(3)
-full_all(off)
-
+    gpu.setBrightness(125)
+    full(gpu,red)
+    time.sleep(1)
+    full(gpu,off)
 ##################################################
-quit
+#quit
+if __name__=="__main__":
+    main()
