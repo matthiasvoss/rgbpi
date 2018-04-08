@@ -1,6 +1,6 @@
 import time
 from flask import Flask
-from strip3 import LedStrip, full, red, off, pin_logo
+from rgbpi.controller.strip3 import LedStrip, full, red, off, pin_logo
 
 app = Flask(__name__)
 logo = LedStrip(9,18,800000,10,False,255,0,pin_logo)
