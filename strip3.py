@@ -1,21 +1,13 @@
 import time
 from neopixel import *
 import RPi.GPIO as GPIO
-GPIO.setmode(GPIO.BCM)
 
-##################################################
-# PARAMS
-##################################################
-pin_window=5
-pin_logo=6
-pin_button=13
-pin_gpu=19
-
-#################################################
-GPIO.setup(pin_window, GPIO.OUT)
-GPIO.setup(pin_logo, GPIO.OUT)
-GPIO.setup(pin_button, GPIO.OUT)
-GPIO.setup(pin_gpu, GPIO.OUT)
+def setup_pi(pin_window=5,pin_logo=6,pin_button=13,pin_gpu=19):
+    GPIO.setmode(GPIO.BCM)
+    GPIO.setup(pin_window, GPIO.OUT)
+    GPIO.setup(pin_logo, GPIO.OUT)
+    GPIO.setup(pin_button, GPIO.OUT)
+    GPIO.setup(pin_gpu, GPIO.OUT)
 
 ##################################################
 # COLORS
