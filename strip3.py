@@ -2,6 +2,7 @@ import time
 from neopixel import *
 import RPi.GPIO as GPIO
 GPIO.setmode(GPIO.BCM)
+GPIO.setwarnings(False)
 
 ##################################################
 # COLORS
@@ -46,14 +47,12 @@ class LedStrip(Adafruit_NeoPixel):
     def dot(self,color,turns,speed,length):
         self.full(off)
         for t in range(turns):
-            n=self.numPixels()
-            while n<(2*self.numPixels()):
-                self.setPixelColor(n%self.numPixels(),color)
-                self.setPixelColor((n-length)%self.numPixels(),off)
+            for n in range(self.numPixels()):
+                self.setPixelColor(n,color)
+                self.setPixelColor(n-length,off)
                 self.show()
-                time.sleep(float(1)/speed)
-                n+=1
-        self.full(off)
+                time.sleep(1./speed)
+            self.full(off)
 
     #CIRCLE
     def circle(self,turns,speed):
@@ -149,10 +148,7 @@ def main():
     gpu.begin()
 
 ##################################################
-    gpu.setBrightness(125)
-    gpu.full(red)
-    time.sleep(1)
-    gpu.full(off)
+    window.dot(red,3,50,5)
 ##################################################
 #quit
 if __name__=="__main__":
