@@ -38,8 +38,7 @@ class LedStrip(Adafruit_NeoPixel):
         GPIO.output(self.enpin, GPIO.HIGH)
 
     def full(self,color):
-        for n in range(self.numPixels()):
-            self.setPixelColor(n,color)
+        self.full_set(color)
         self.show()
 
     def full_set(self,color):
