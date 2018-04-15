@@ -1,5 +1,7 @@
 import time
 from neopixel import *
+import math
+import colorsys
 import RPi.GPIO as GPIO
 GPIO.setmode(GPIO.BCM)
 GPIO.setwarnings(False)
@@ -56,39 +58,18 @@ class LedStrip(Adafruit_NeoPixel):
 
     #CIRCLE
     def circle(self,turns,speed):
-        for t in range(turns):
-            for s in range(int(float(1530)/speed)):
-                for n in range(self.numPixels()):
-                    for i in range(speed):
-                        self.setfade(n)
-                self.show()
-                time.sleep(0.01)
-
-    #SETFADE
-    def setfade(self,n):
-        g=(self.getPixelColor(n)>>16)&255
-        r=(self.getPixelColor(n)>>8)&255
-        b=self.getPixelColor(n)&255
-        if g==0:
-            if r==0:
-                g+=1
-            elif b==255:
-                r-=1
-            else:
-                b+=1
-        elif r==0:
-            if b==0:
-                r+=1
-            elif g==255:
-                b-=1
-            else:
-                g+=1
-        elif b==0:
-            if r==255:
-                g-=1
-            else:
-                r+=1
-        self.setPixelColor(n,Color(g,r,b))
+        hsv=[whatever_to_hsv(self.getPixelColor(n)) for n in range(self.numPixels())]
+        #print(hsv)
+        steps=int(turns*(1/speed))
+        for s in range(steps):
+            for n,c in enumerate(hsv):
+                c[0]+=speed
+                self.setPixelColor(n,hsv_to_whatever(c))
+            self.show()
+            time.sleep(0.01)
+                    
+                
+           
 
     #RAINBOW
     def rainbow(self):
@@ -134,6 +115,22 @@ class LedStrip(Adafruit_NeoPixel):
             self.show()
             time.sleep(pause)
 
+def whatever_to_rgb(whatever):
+    rgb=[(whatever>>8)&255,(whatever>>16)&255,whatever&255]
+    return rgb
+
+def whatever_to_hsv(whatever):
+    rgb=whatever_to_rgb(whatever)
+    rgb=[c/255 for c in rgb]
+    return list(colorsys.rgb_to_hsv(*rgb))
+
+def hsv_to_whatever(hsv):
+    rgb=colorsys.hsv_to_rgb(*hsv)
+    rgb=[int(round(c*255)) for c in rgb]
+    grb=[rgb[1],rgb[0],rgb[2]]
+    whatever=Color(*grb)
+    return whatever
+    
 ##################################################
 # MAIN
 ##################################################
@@ -148,7 +145,11 @@ def main():
     gpu.begin()
 
 ##################################################
-    window.dot(red,3,50,5)
+    logo.full(yellow)
+    logo.circle(5,0.07)
+    #logo.circle1(1,10)
+    time.sleep(3)
+    logo.full(off)
 ##################################################
 #quit
 if __name__=="__main__":
