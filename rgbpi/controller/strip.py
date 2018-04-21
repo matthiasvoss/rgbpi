@@ -1,6 +1,5 @@
 import time
-from neopixel import *
-import math
+from neopixel import Adafruit_NeoPixel
 import colorsys
 import RPi.GPIO as GPIO
 GPIO.setmode(GPIO.BCM)
