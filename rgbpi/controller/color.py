@@ -33,7 +33,7 @@ class Color:
 
     @classmethod
     def bit24_to_rgb255(cls, bit24):
-        return (bit24 >> 8) & 255, (bit24 >> 16) & 255, bit24 & 255
+        return (bit24 >> 16) & 255, (bit24 >> 8) & 255, bit24 & 255
 
     @classmethod
     def rgb255_to_hsv(cls, rgb255):
