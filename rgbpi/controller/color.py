@@ -21,11 +21,11 @@ class Color:
 
     @classmethod
     def rgb255_to_rgb(cls, rgb255):
-        return [c/255 for c in rgb255]
+        return tuple(c/255 for c in rgb255)
 
     @classmethod
     def rgb_to_rgb255(cls, rgb):
-        return [int(round(c*255)) for c in rgb]
+        return tuple(int(round(c*255)) for c in rgb)
 
     @classmethod
     def rgb255_to_bit24(cls, rgb255):
