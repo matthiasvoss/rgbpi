@@ -2,6 +2,35 @@ import colorsys
 
 
 class Color:
+    """Convert and represent colors in different color formats.
+
+    The color can be initialized from any of the formats listed in the arguments.
+    To output a color in another format use the respective property (see examples).
+    Internally, the class uses the rgb255 representation and converts everything to and from this format.
+
+    Arguments:
+        rgb255: rgb tuples with values between 0-255
+        rgb: rgb tuples with values between 0.-1.
+        grb255: grb tuples with values between 0-255
+        grb: grb tuples with values between 0.-1.
+        bit24: 24 bit int representing a rgb color
+        bit24_grb: 24 bit int representing a grb color
+        hsv: hsv tuple with values between 0. and 1.
+
+    Examples:
+        Initialize a color from RGB255:
+
+        >>> red = Color(rgb255=(255, 0, 0))
+        >>> red.grb  # Output grb tuple
+        (0.0, 1.0, 0.0)
+
+        Initialize a color from HSV:
+
+        >>> red = Color(hsv=(0, 1., 1.))
+        >>> red.bit24  # Output bit24 value
+        16711680
+    """
+
     _rgb255 = None
 
     def __init__(self, rgb255=None, rgb=None, grb255=None, grb=None, bit24=None, bit24_grb=None, hsv=None):
