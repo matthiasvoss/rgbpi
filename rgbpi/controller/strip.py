@@ -2,68 +2,11 @@ import time
 from neopixel import Adafruit_NeoPixel
 import colorsys
 import RPi.GPIO as GPIO
+
+from rgbpi.controller.color import Color
+
 GPIO.setmode(GPIO.BCM)
 GPIO.setwarnings(False)
-
-
-class Color:
-    _rgb255 = None
-
-    def __init__(self, rgb255=None, rgb=None, bit24=None, hsv=None):
-        # Check that only 1 value is given
-        if sum(bool(e) for e in (rgb255, rgb, bit24, hsv)) != 1:
-            raise ValueError('Initialize a new Color with only a single color format!')
-
-        # Convert to internal rgb255 representation
-        if rgb255:
-            self._rgb255 = rgb255
-        elif rgb:
-            self._rgb255 = self.rgb_to_rgb255(rgb)
-        elif bit24:
-            self._rgb255 = self.bit24_to_rgb255(bit24)
-        elif hsv:
-            self._rgb255 = self.hsv_to_rgb255(hsv)
-
-    @classmethod
-    def rgb255_to_rgb(cls, rgb255):
-        return [c/255 for c in rgb255]
-
-    @classmethod
-    def rgb_to_rgb255(cls, rgb):
-        return [int(round(c*255)) for c in rgb]
-
-    @classmethod
-    def rgb255_to_bit24(cls, rgb255):
-        return (rgb255[0] << 16) | (rgb255[1] << 8) | rgb255[2]
-
-    @classmethod
-    def bit24_to_rgb255(cls, bit24):
-        return (bit24 >> 8) & 255, (bit24 >> 16) & 255, bit24 & 255
-
-    @classmethod
-    def rgb255_to_hsv(cls, rgb255):
-        return colorsys.rgb_to_hsv(*cls.rgb255_to_rgb(rgb255))
-
-    @classmethod
-    def hsv_to_rgb255(cls, hsv):
-        return cls.rgb_to_rgb255(colorsys.hsv_to_rgb(*hsv))
-
-    @property
-    def rgb255(self):
-        return self._rgb255
-
-    @property
-    def rgb(self):
-        return self.rgb255_to_rgb(self._rgb255)
-
-    @property
-    def bit24(self):
-        return self.rgb255_to_bit24(self._rgb255)
-
-    @property
-    def hsv(self):
-        return self.rgb255_to_hsv(self._rgb255)
-
 
 ##################################################
 # COLORS
@@ -135,17 +78,17 @@ class LedStrip(Adafruit_NeoPixel):
         for n in range(self.numPixels()):
             i=int((float(n)/(self.numPixels()-1))*1529)
             if i>=0 and i<=254:
-                self.setPixelColor(n,Color(0,255,i%255))
+                self.setPixelColor(n, Color(0, 255, i % 255))
             elif i<=509:
-                self.setPixelColor(n,Color(0,255-(i%255),255))
+                self.setPixelColor(n, Color(0, 255 - (i % 255), 255))
             elif i<=764:
-                self.setPixelColor(n,Color(i%255,0,255))
+                self.setPixelColor(n, Color(i % 255, 0, 255))
             elif i<=1019:
-                self.setPixelColor(n,Color(255,0,255-(i%255)))
+                self.setPixelColor(n, Color(255, 0, 255 - (i % 255)))
             elif i<=1274:
-                self.setPixelColor(n,Color(255,i%255,0))
+                self.setPixelColor(n, Color(255, i % 255, 0))
             elif i<=1529:
-                self.setPixelColor(n,Color(255-(i%255),255,0))
+                self.setPixelColor(n, Color(255 - (i % 255), 255, 0))
         self.show()
 
     def breatheval(x):
@@ -187,7 +130,7 @@ def hsv_to_whatever(hsv):
     rgb=colorsys.hsv_to_rgb(*hsv)
     rgb=[int(round(c*255)) for c in rgb]
     grb=[rgb[1],rgb[0],rgb[2]]
-    whatever=Color(*grb)
+    whatever= Color(*grb)
     return whatever
     
 ##################################################
