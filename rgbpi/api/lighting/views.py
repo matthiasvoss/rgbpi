@@ -1,7 +1,7 @@
 from flask import Blueprint, current_app
 import time
 
-from rgbpi.controller.strip3 import red, off
+from rgbpi.controller.strip import red, off
 
 blueprint = Blueprint('lighting', __name__, url_prefix='/lighting')
 

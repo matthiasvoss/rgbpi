@@ -2,7 +2,7 @@ import time
 from flask import Flask
 
 from rgbpi.api import lighting
-from rgbpi.controller.strip3 import LedStrip
+from rgbpi.controller.strip import LedStrip
 
 
 def create_app(config_object=None):
