@@ -93,9 +93,9 @@ class LedStrip(Adafruit_NeoPixel):
     def breathe(self,turns,speed,hold,pause):
         for t in range(turns):
             i=float(0)
-            while breatheval(i)<255:
+            while self.breatheval(i)<255:
                 #print i,"-",breatheval(i),"-",int(breatheval(i))
-                self.setBrightness(int(breatheval(i)))
+                self.setBrightness(int(self.breatheval(i)))
                 self.show()
                 i=i+0.001*speed
                 time.sleep(0.01)
@@ -105,7 +105,7 @@ class LedStrip(Adafruit_NeoPixel):
             i=i-0.001*speed
             while i>=0:
                 #print i,"-",breatheval(i),"-",int(breatheval(i))
-                self.setBrightness(int(breatheval(i)))
+                self.setBrightness(int(self.breatheval(i)))
                 self.show()
                 i=i-0.001*speed
                 time.sleep(0.01)
