@@ -22,6 +22,14 @@ class ColorInitTest(unittest.TestCase):
         color = 16711680
         self.assertEqual(self.target_rgb255, Color(bit24=color)._rgb255)
 
+    def test_no_value_init(self):
+        with self.assertRaises(ValueError):
+            Color()
+
+    def test_two_value_init(self):
+        with self.assertRaises(ValueError):
+            Color(rgb=1, rgb255=1)
+
 
 class ColorConversionTest(unittest.TestCase):
     init_rgb255 = (255, 0, 0)
